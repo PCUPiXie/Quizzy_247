@@ -75,6 +75,25 @@ export async function generateContent(formData: FormData) {
     throw new Error("AI generation failed: " + raw);
   }
 
+  // --- SAVE TO CONVEX HISTORY ---
+  const topic = notes.split("\n")[0].substring(0, 50) || "Untitled " + mode;
+  
+  try {
+    const { ConvexHttpClient } = await import("convex/browser");
+    const { api } = await import("../convex/_generated/api");
+    
+    const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+    await client.mutation(api.history.saveHistory, {
+      topic,
+      mode,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error("Failed to save to history:", err);
+    // Continue anyway to show the result
+  }
+  // ------------------------------
+
   const encoded = encodeURIComponent(JSON.stringify(result.data));
 
   if (mode === "quiz") {

@@ -4,17 +4,12 @@ import { History, UserCircle, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-const mockHistory = [
-  "Capital of France",
-  "Photosynthesis Basics",
-  "Quantum Physics Intro",
-  "World War II Timeline",
-];
+import { HistoryList } from "./HistoryList";
 
 export function Sidebar() {
   return (
     <div className="w-64 h-screen border-r bg-background/50 flex flex-col p-4">
-      <div className="flex items-center gap-2 mb-8 px-2">
+      <div className="flex items-center gap-2 mb-8 px-2 cursor-pointer" onClick={() => window.location.href = "/"}>
         <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
           <LayoutGrid className="text-primary-foreground w-5 h-5" />
         </div>
@@ -27,17 +22,7 @@ export function Sidebar() {
           <span className="text-sm font-medium">History</span>
         </div>
         <Separator className="my-2" />
-        <div className="space-y-1">
-          {mockHistory.map((item, index) => (
-            <Button
-              key={index}
-              variant="ghost"
-              className="w-full justify-start text-sm font-normal h-9 px-2 hover:bg-secondary/80"
-            >
-              <span className="truncate">{item}</span>
-            </Button>
-          ))}
-        </div>
+        <HistoryList />
       </div>
 
       <div className="mt-auto px-2">
